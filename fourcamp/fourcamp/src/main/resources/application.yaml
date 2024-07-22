@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: Plataforma Para Freelancer
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/PPF?ApplicationName=PlataformaParaFreelancer
+    username: postgres
+    password: admin
+
+  hikari:
+    maximumPoolSize: 3
+    minimumIdle: 2
+    idleTimeout: 20000
+    poolName: PlataformaParaFreelancer-pool

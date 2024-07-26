@@ -1,5 +1,6 @@
 package br.com.plataformafreelancer.fourcamp.utils;
 
+import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.exceptions.CnpjInvalidoException;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ public class CnpjService {
 
     public void validarCnpj(String cnpj) {
         if (cnpj == null || !isValidCNPJ(cnpj)) {
-            throw new CnpjInvalidoException("CNPJ inválido: " + cnpj);
+            throw new CnpjInvalidoException(ErrorCode.CNPJ_INVALIDO.getCustomMessage() + cnpj);
         }
     }
 

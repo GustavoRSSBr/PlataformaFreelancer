@@ -1,22 +1,18 @@
-package br.com.plataformafreelancer.fourcamp.model;
+package br.com.plataformafreelancer.fourcamp.dtos;
 
-import br.com.plataformafreelancer.fourcamp.enuns.TipoUsuario;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Avaliacao {
-    private Integer idAvaliacao;
+@AllArgsConstructor
+@Builder
+public class RequestAvaliacaoDto {
     private Integer empresaId;
     private Integer freelancerId;
     private Integer projetoId;
-    private TipoUsuario avaliado;
     private Integer nota;
     private String comentario;
-    private String dataAvaliacao;
 }

@@ -1,5 +1,6 @@
 package br.com.plataformafreelancer.fourcamp.utils;
 
+import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.exceptions.EmailInvalidoException;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class EmailService {
 
     public void validarEmail(String email) {
         if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
-            throw new EmailInvalidoException("Email inválido: " + email);
+            throw new EmailInvalidoException(ErrorCode.EMAIL_INVALIDO.getCustomMessage() + email);
         }
     }
 }

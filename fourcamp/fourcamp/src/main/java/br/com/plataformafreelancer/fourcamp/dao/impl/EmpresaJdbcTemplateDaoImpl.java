@@ -1,23 +1,32 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl;
 
 import br.com.plataformafreelancer.fourcamp.dao.IEmpresaJdbcTemplateDao;
+import br.com.plataformafreelancer.fourcamp.dtos.RequestAnalisarPropostaDto;
+import br.com.plataformafreelancer.fourcamp.handler.GlobalExceptionHandler;
+import br.com.plataformafreelancer.fourcamp.model.Avaliacao;
 import br.com.plataformafreelancer.fourcamp.model.Empresa;
+import br.com.plataformafreelancer.fourcamp.model.Projeto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmpresaJdbcTemplateDaoImpl.class);
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public void salvarDadosCadastrais(Empresa empresa) {
-        String sql = "CALL cadastrar_empresa(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+        LOGGER.info("Início do método salvarDadosCadastrais com empresa: {}", empresa);
         try {
+            String sql = "CALL cadastrar_empresa(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
             jdbcTemplate.update(sql,
                     empresa.getUsuario().getEmail(),
                     empresa.getUsuario().getSenha(),
@@ -37,18 +46,70 @@ public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
                     empresa.getRamoAtuacao(),
                     empresa.getSite()
             );
-        } catch (DataIntegrityViolationException e) {
-            // Verificar se a exceção foi causada por uma violação de unicidade
-            if (e.getMessage().contains("duplicate key value") || e.getMessage().contains("duplicar valor")) {
-                throw new IllegalArgumentException("Email ou CNPJ já existente, digite outro.");
-            } else if (e.getMessage().contains("null value in column") || e.getMessage().contains("valor nulo na coluna")) {
-                throw new IllegalArgumentException("Um valor obrigatório não foi fornecido. Verifique os campos e tente novamente.");
-            } else {
-                throw new RuntimeException("Ocorreu um erro de integridade de dados. Por favor, verifique os dados inseridos e tente novamente.");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.");
+            LOGGER.info("Dados cadastrais da empresa salvos com sucesso: {}", empresa);
+        } catch (DataAccessException e) {
+            LOGGER.error("Erro ao salvar dados cadastrais da empresa: {}", empresa, e);
+            GlobalExceptionHandler.handleException(e);
+        }
+    }
+
+    @Override
+    public void salvarDadosProjeto(Projeto projeto) {
+        LOGGER.info("Início do método salvarDadosProjeto com projeto: {}", projeto);
+        try {
+            String sql = "CALL cadastrarProjeto(?, ?, ?, ?, ?, ?, ?, ?)";
+            jdbcTemplate.update(sql,
+                    projeto.getTitulo(),
+                    projeto.getDescricao(),
+                    projeto.getOrcamento(),
+                    projeto.getPrazo(),
+                    projeto.getStatusProjeto().toString(),
+                    projeto.getDataCriacao(),
+                    projeto.getEmpresaId(),
+                    projeto.getHabilidades().toArray(new String[0])
+            );
+            LOGGER.info("Dados do projeto salvos com sucesso: {}", projeto);
+        } catch (DataAccessException e) {
+            LOGGER.error("Erro ao salvar dados do projeto: {}", projeto, e);
+            GlobalExceptionHandler.handleException(e);
+        }
+    }
+
+    @Override
+    public void analisarProposta(RequestAnalisarPropostaDto request) {
+        LOGGER.info("Início do método analisarProposta com request: {}", request);
+        String sql = "CALL AtualizaStatusProposta(?, ?)";
+
+        try {
+            jdbcTemplate.update(sql,
+                    request.getIdProposta(),
+                    request.getStatusProposta().toString()
+            );
+            LOGGER.info("Proposta analisada com sucesso para o request: {}", request);
+        } catch (DataAccessException e) {
+            LOGGER.error("Erro ao analisar proposta: {}", request, e);
+            GlobalExceptionHandler.handleException(e);
+        }
+    }
+
+    @Override
+    public void avaliarFreelancer(Avaliacao avaliacao) {
+        LOGGER.info("Início do método avaliarFreelancer com avaliacao: {}", avaliacao);
+        try {
+            String sql = "CALL enviar_avaliacao(?, ?, ?, ?, ?, ?, ?)";
+            jdbcTemplate.update(sql,
+                    avaliacao.getEmpresaId(),
+                    avaliacao.getFreelancerId(),
+                    avaliacao.getProjetoId(),
+                    avaliacao.getAvaliado().toString(),
+                    avaliacao.getNota(),
+                    avaliacao.getComentario(),
+                    avaliacao.getDataAvaliacao()
+            );
+            LOGGER.info("Avaliação do freelancer enviada com sucesso: {}", avaliacao);
+        } catch (DataAccessException e) {
+            LOGGER.error("Erro ao enviar avaliação do freelancer: {}", avaliacao, e);
+            GlobalExceptionHandler.handleException(e);
         }
     }
 }
-

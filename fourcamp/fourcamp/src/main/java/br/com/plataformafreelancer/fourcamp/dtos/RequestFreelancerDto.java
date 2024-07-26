@@ -26,24 +26,4 @@ public class RequestFreelancerDto {
     private String descricao;
     private String disponibilidade;
     private List<String> habilidades;
-
-
-    @Override
-    public String toString() {
-        return "RequestFreelancerDto{" +
-                "email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
-                ", numero='" + numero + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", pais='" + pais + '\'' +
-                ", cep='" + cep + '\'' +
-                ", nome='" + nome + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", dataNascimento='" + dataNascimento + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", disponibilidade='" + disponibilidade + '\'' +
-                ", habilidades=" + habilidades +
-                '}';
-    }
 }

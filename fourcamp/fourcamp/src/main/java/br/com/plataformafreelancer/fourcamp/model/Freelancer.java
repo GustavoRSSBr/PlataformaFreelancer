@@ -1,13 +1,12 @@
 package br.com.plataformafreelancer.fourcamp.model;
 
-import br.com.plataformafreelancer.fourcamp.enuns.Status;
+import br.com.plataformafreelancer.fourcamp.enuns.StatusFreelancer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,26 +24,7 @@ public class Freelancer {
     private String descricao;
     private String disponibilidade;
     private String dataCriacao;
-    private Status status;
+    private StatusFreelancer statusFreelancer;
     private List<String> habilidades;
     private List<Avaliacao> avaliacoes;
-
-    @Override
-    public String toString() {
-        return "Freelancer{" +
-                "idFreelancer=" + idFreelancer +
-                ", usuario=" + usuario +
-                ", nome='" + nome + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", dataNascimento=" + dataNascimento +
-                ", telefone='" + telefone + '\'' +
-                ", endereco=" + endereco +
-                ", descricao='" + descricao + '\'' +
-                ", disponibilidade='" + disponibilidade + '\'' +
-                ", dataCriacao='" + dataCriacao + '\'' +
-                ", status=" + status +
-                ", habilidades=" + habilidades +
-                ", avaliacoes=" + avaliacoes +
-                '}';
-    }
 }

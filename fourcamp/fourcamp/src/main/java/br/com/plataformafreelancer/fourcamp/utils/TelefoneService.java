@@ -1,5 +1,6 @@
 package br.com.plataformafreelancer.fourcamp.utils;
 
+import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.exceptions.TelefoneInvalidoException;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class TelefoneService {
 
     public void validarNumeroTelefone(String numeroTelefone) {
         if (numeroTelefone == null || numeroTelefone.trim().isEmpty() || !pattern.matcher(numeroTelefone).matches()) {
-            throw new TelefoneInvalidoException("Número de telefone inválido: " + numeroTelefone);
+            throw new TelefoneInvalidoException(ErrorCode.TELEFONE_INVALIDO.getCustomMessage() + numeroTelefone);
         }
     }
 }

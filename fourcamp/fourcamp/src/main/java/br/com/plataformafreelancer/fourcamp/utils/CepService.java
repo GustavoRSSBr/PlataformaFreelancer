@@ -1,7 +1,8 @@
 package br.com.plataformafreelancer.fourcamp.utils;
 
 import br.com.plataformafreelancer.fourcamp.dtos.EnderecoDto;
-import br.com.plataformafreelancer.fourcamp.exceptions.CepNaoEncontradoException;
+import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
+import br.com.plataformafreelancer.fourcamp.exceptions.CepException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,14 +12,14 @@ public class CepService {
 
     public EnderecoDto buscaEnderecoPor(String cep) {
         if (!isValidCep(cep)) {
-            throw new CepNaoEncontradoException("CEP inválido: " + cep);
+            throw new CepException(ErrorCode.CEP_INVALIDO.getCustomMessage() + cep);
         }
 
         RestTemplate restTemplate = new RestTemplate();
         EnderecoDto enderecoDto = restTemplate.getForObject(String.format(CEP_API_URL, cep), EnderecoDto.class);
 
         if (enderecoDto == null || enderecoDto.getCep() == null) {
-            throw new CepNaoEncontradoException("CEP não encontrado: " + cep);
+            throw new CepException(ErrorCode.CEP_NAO_ENCONTRADO.getCustomMessage() + cep);
         }
 
         return enderecoDto;

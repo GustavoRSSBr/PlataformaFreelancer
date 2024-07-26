@@ -20,21 +20,5 @@ public class EnderecoDto {
     private String gia;
     private String ddd;
     private String siafi;
-
-    @Override
-    public String toString() {
-        return "EnderecoDto{" +
-                "cep='" + cep + '\'' +
-                ", logradouro='" + logradouro + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", bairro='" + bairro + '\'' +
-                ", localidade='" + localidade + '\'' +
-                ", uf='" + uf + '\'' +
-                ", ibge='" + ibge + '\'' +
-                ", gia='" + gia + '\'' +
-                ", ddd='" + ddd + '\'' +
-                ", siafi='" + siafi + '\'' +
-                '}';
-    }
 }
 

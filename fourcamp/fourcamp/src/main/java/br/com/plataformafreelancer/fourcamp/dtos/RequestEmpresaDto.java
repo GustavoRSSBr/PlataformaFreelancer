@@ -23,22 +23,5 @@ public class RequestEmpresaDto {
     private String ramoAtuacao;
     private String site;
 
-    @Override
-    public String toString() {
-        return "RequestEmpresaDto{" +
-                "email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
-                ", numero='" + numero + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", pais='" + pais + '\'' +
-                ", cep='" + cep + '\'' +
-                ", nome='" + nome + '\'' +
-                ", cnpj='" + cnpj + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", nomeEmpresa='" + nomeEmpresa + '\'' +
-                ", ramoAtuacao='" + ramoAtuacao + '\'' +
-                ", site='" + site + '\'' +
-                '}';
-    }
 }
 

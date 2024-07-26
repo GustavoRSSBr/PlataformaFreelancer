@@ -1,5 +1,6 @@
 package br.com.plataformafreelancer.fourcamp.utils;
 
+import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.exceptions.CpfInvalidoException;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ public class CpfService {
 
     public void validarCpf(String cpf) {
         if (cpf == null || !isValidCPF(cpf)) {
-            throw new CpfInvalidoException("CPF inválido: " + cpf);
+            throw new CpfInvalidoException(ErrorCode.CPF_INVALIDO.getCustomMessage() + cpf);
         }
     }
 

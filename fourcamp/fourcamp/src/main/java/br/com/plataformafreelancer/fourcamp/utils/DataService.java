@@ -36,7 +36,7 @@ public class DataService {
         return LocalDate.parse(data, DATE_FORMATTER);
     }
 
-    public String converterLocalDateTimeAtualParaString() {
+    public String coletarDataHoraAtual() {
         LocalDateTime agora = LocalDateTime.now();
         return agora.format(DATE_TIME_FORMATTER);
     }

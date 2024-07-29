@@ -1,17 +1,24 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl;
 
 import br.com.plataformafreelancer.fourcamp.dao.IEmpresaJdbcTemplateDao;
+import br.com.plataformafreelancer.fourcamp.dao.impl.mapper.FreelancerDtoRowMapper;
+import br.com.plataformafreelancer.fourcamp.dto.ResponseFreelancerDto;
 import br.com.plataformafreelancer.fourcamp.dtos.RequestAnalisarPropostaDto;
 import br.com.plataformafreelancer.fourcamp.handler.GlobalExceptionHandler;
 import br.com.plataformafreelancer.fourcamp.model.Avaliacao;
 import br.com.plataformafreelancer.fourcamp.model.Empresa;
+import br.com.plataformafreelancer.fourcamp.model.Freelancer;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
@@ -112,4 +119,18 @@ public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
             GlobalExceptionHandler.handleException(e);
         }
     }
+
+    @Override
+    public List<ResponseFreelancerDto> listarFreelacer() {
+        String sql = "SELECT * FROM listar_freelancers()";
+
+        try {
+            return jdbcTemplate.query(sql, new FreelancerDtoRowMapper());
+        } catch (DataAccessException e) {
+            GlobalExceptionHandler.handleException(e);
+            return Collections.emptyList();
+        }
+    }
+
+
 }

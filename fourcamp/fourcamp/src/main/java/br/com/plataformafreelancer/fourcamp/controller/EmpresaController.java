@@ -3,13 +3,17 @@ import br.com.plataformafreelancer.fourcamp.dtos.RequestAnalisarPropostaDto;
 import br.com.plataformafreelancer.fourcamp.dtos.RequestAvaliacaoDto;
 import br.com.plataformafreelancer.fourcamp.dtos.RequestEmpresaDto;
 import br.com.plataformafreelancer.fourcamp.dtos.RequestProjetoDto;
+import br.com.plataformafreelancer.fourcamp.dto.ResponseFreelancerDto;
 import br.com.plataformafreelancer.fourcamp.model.StandardResponse;
 import br.com.plataformafreelancer.fourcamp.usecase.EmpresaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/empresa")
@@ -89,5 +93,16 @@ public class EmpresaController {
             LOGGER.error("Erro ao avaliar freelancer: {}", request, e);
             throw e;
         }
+    }
+
+
+    @GetMapping("/v1/listar-freelancers")
+    public ResponseEntity<?> listaFreelancer() {
+        long startTime = System.currentTimeMillis();
+        List<ResponseFreelancerDto>  lista = service.listarFreelancer();
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+        LOGGER.info("Tempo decorrido no método listarFreelancer: {} milissegundos", elapsedTime);
+        return new ResponseEntity<>(lista , HttpStatus.OK);
     }
 }

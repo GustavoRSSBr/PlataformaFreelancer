@@ -2,14 +2,19 @@ package br.com.plataformafreelancer.fourcamp.usecase;
 
 import br.com.plataformafreelancer.fourcamp.dao.impl.EmpresaJdbcTemplateDaoImpl;
 import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusProjeto;
 import br.com.plataformafreelancer.fourcamp.enuns.TipoUsuario;
+import br.com.plataformafreelancer.fourcamp.exceptions.ListaException;
 import br.com.plataformafreelancer.fourcamp.model.*;
 import br.com.plataformafreelancer.fourcamp.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.com.plataformafreelancer.fourcamp.dto.ResponseFreelancerDto;
+
+import java.util.List;
 
 @Service
 public class EmpresaService {
@@ -134,5 +139,15 @@ public class EmpresaService {
             LOGGER.error("Erro ao avaliar freelancer: {}", request, e);
             throw e;
         }
+    }
+
+    public List<ResponseFreelancerDto> listarFreelancer() {
+
+       List<ResponseFreelancerDto> lista = empresaJdbcTemplateDao.listarFreelacer();
+       if(lista == null || lista.isEmpty()){
+           throw new ListaException(ErrorCode.LISTA_VAZIA.getCustomMessage());
+       }
+
+       return lista;
     }
 }

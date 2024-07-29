@@ -28,6 +28,7 @@ public enum ErrorCode {
     NOME_INVALIDO("Nome inválido", "Nome inválido: "),
     SENHA_INVALIDA("Senha inválida", "Senha inválida: a senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial."),
     TELEFONE_INVALIDO("Número de telefone inválido", "Número de telefone inválido: "),
+    LISTA_VAZIA("lista vazia", "Nenhum dado foi encontrado!"),
     OUTRO_ERRO("Outro erro", "Erro desconhecido");
 
     private final String message;

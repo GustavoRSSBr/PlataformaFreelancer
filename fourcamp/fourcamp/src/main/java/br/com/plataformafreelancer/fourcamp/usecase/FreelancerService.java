@@ -1,19 +1,20 @@
 package br.com.plataformafreelancer.fourcamp.usecase;
 
 import br.com.plataformafreelancer.fourcamp.dao.impl.FreelancerJdbcTemplateDaoImpl;
-import br.com.plataformafreelancer.fourcamp.dtos.EnderecoDto;
-import br.com.plataformafreelancer.fourcamp.dtos.RequestAvaliacaoDto;
-import br.com.plataformafreelancer.fourcamp.dtos.RequestFreelancerDto;
-import br.com.plataformafreelancer.fourcamp.dtos.RequestPropostaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusFreelancer;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusProposta;
 import br.com.plataformafreelancer.fourcamp.enuns.TipoUsuario;
+import br.com.plataformafreelancer.fourcamp.exceptions.NaoEncontradoException;
 import br.com.plataformafreelancer.fourcamp.model.*;
 import br.com.plataformafreelancer.fourcamp.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class FreelancerService {
@@ -44,7 +45,7 @@ public class FreelancerService {
     private FreelancerJdbcTemplateDaoImpl freelancerJdbcTemplateDaoImpl;
 
     public void salvarDadosCadastrais(RequestFreelancerDto request) {
-        LOGGER.info("Início do método salvarDadosCadastrais com request: {}", request);
+        LoggerUtils.logRequestStart(LOGGER, "salvarDadosCadastrais", request);
         try {
             emailService.validarEmail(request.getEmail());
             senhaService.validarSenha(request.getSenha());
@@ -87,15 +88,15 @@ public class FreelancerService {
                     .build();
 
             freelancerJdbcTemplateDaoImpl.salvarDadosCadastrais(freelancer);
-            LOGGER.info("Dados cadastrais salvos com sucesso para o freelancer: {}", freelancer);
+            LoggerUtils.logElapsedTime(LOGGER, "salvarDadosCadastrais", System.currentTimeMillis());
         } catch (Exception e) {
-            LOGGER.error("Erro ao salvar dados cadastrais do freelancer: {}", request, e);
+            LoggerUtils.logError(LOGGER, "salvarDadosCadastrais", request, e);
             throw e;
         }
     }
 
     public void salvarProposta(RequestPropostaDto request) {
-        LOGGER.info("Início do método salvarProposta com request: {}", request);
+        LoggerUtils.logRequestStart(LOGGER, "salvarProposta", request);
         try {
             Proposta proposta = Proposta.builder()
                     .freelancerId(request.getFreelancerId())
@@ -107,15 +108,15 @@ public class FreelancerService {
                     .build();
 
             freelancerJdbcTemplateDaoImpl.salvarProposta(proposta);
-            LOGGER.info("Proposta salva com sucesso: {}", proposta);
+            LoggerUtils.logElapsedTime(LOGGER, "salvarProposta", System.currentTimeMillis());
         } catch (Exception e) {
-            LOGGER.error("Erro ao salvar proposta: {}", request, e);
+            LoggerUtils.logError(LOGGER, "salvarProposta", request, e);
             throw e;
         }
     }
 
     public void avaliarEmpresa(RequestAvaliacaoDto request) {
-        LOGGER.info("Início do método avaliarEmpresa com request: {}", request);
+        LoggerUtils.logRequestStart(LOGGER, "avaliarEmpresa", request);
         try {
             Avaliacao avaliacao = Avaliacao.builder()
                     .empresaId(request.getEmpresaId())
@@ -128,10 +129,55 @@ public class FreelancerService {
                     .build();
 
             freelancerJdbcTemplateDaoImpl.avaliarEmpresa(avaliacao);
-            LOGGER.info("Avaliação enviada com sucesso: {}", avaliacao);
+            LoggerUtils.logElapsedTime(LOGGER, "avaliarEmpresa", System.currentTimeMillis());
         } catch (Exception e) {
-            LOGGER.error("Erro ao avaliar empresa: {}", request, e);
+            LoggerUtils.logError(LOGGER, "avaliarEmpresa", request, e);
             throw e;
         }
+    }
+
+    public List<ResponseEmpresaDto> listarEmpresa() {
+        List<ResponseEmpresaDto> lista = freelancerJdbcTemplateDaoImpl.listarEmpresas();
+        if (lista == null || lista.isEmpty()) {
+            throw new NaoEncontradoException(ErrorCode.LISTA_VAZIA.getCustomMessage());
+        }
+        return lista;
+    }
+
+    public List<Projeto> listarTodosProjetos() {
+        List<Projeto> lista = freelancerJdbcTemplateDaoImpl.listarTodosProjetos();
+        if (lista == null || lista.isEmpty()) {
+            throw new NaoEncontradoException(ErrorCode.LISTA_VAZIA.getCustomMessage());
+        }
+        return lista;
+    }
+
+    public ResponseEmpresaCompletaDto obterDetalhesEmpresa(Integer empresaId) {
+        ResponseEmpresaCompletaDto empresa = freelancerJdbcTemplateDaoImpl.obterDetalhesEmpresa(empresaId);
+        if (empresa == null) {
+            throw new NaoEncontradoException(ErrorCode.OBJETO_VAZIO.getCustomMessage());
+        }
+        return empresa;
+    }
+
+    public List<ProjetoCompatibilidadeDto> listaProjetosCompativeis(Integer id) {
+        List<ProjetoCompatibilidadeDto> lista = freelancerJdbcTemplateDaoImpl.buscarProjetosCompativeis(id);
+        if (lista == null || lista.isEmpty()) {
+            throw new NaoEncontradoException(ErrorCode.LISTA_VAZIA.getCustomMessage());
+        }
+        return lista;
+    }
+
+    public void atualizarDadosFreelancer(RequestAtualizarFreelancerDto freelancer) {
+        telefoneService.validarNumeroTelefone(freelancer.getTelefone());
+
+        EnderecoDto endereco = cepService.buscaEnderecoPor(freelancer.getCep());
+
+        freelancer.setBairro(endereco.getBairro());
+        freelancer.setCidade(endereco.getLocalidade());
+        freelancer.setEstado(endereco.getUf());
+        freelancer.setLogradouro(endereco.getLogradouro());
+
+        freelancerJdbcTemplateDaoImpl.atualizarDadosFreelancer(freelancer);
     }
 }

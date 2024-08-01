@@ -21,6 +21,8 @@ public class Empresa {
     private String nomeEmpresa;
     private String ramoAtuacao;
     private String site;
+    private Double nota;
     private List<Avaliacao> avaliacoes;
+    private List<Projeto> projetos;
 }
 

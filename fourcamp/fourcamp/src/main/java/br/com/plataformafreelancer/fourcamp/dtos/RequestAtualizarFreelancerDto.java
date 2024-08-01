@@ -1,6 +1,5 @@
 package br.com.plataformafreelancer.fourcamp.dtos;
 
-import br.com.plataformafreelancer.fourcamp.enuns.StatusFreelancer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,20 +9,25 @@ import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class ResponseFreelancerDto {
-    private Integer idFreelancer;
-    private String email;
-    private String nome;
-    private String dataNascimento;
+@NoArgsConstructor
+public class RequestAtualizarFreelancerDto {
+    private int idFreelancer;
     private String telefone;
+    private String logradouro;
+    private String numero;
+    private String complemento;
+    private String bairro;
     private String cidade;
+    private String cep;
     private String estado;
+    private String pais;
     private String descricao;
     private String disponibilidade;
-    private String dataCriacao;
-    private StatusFreelancer statusFreelancer;
+    private String status;
     private List<String> habilidades;
-}
 
+    // Getters e Setters
+
+    // Construtores (opcional)
+}

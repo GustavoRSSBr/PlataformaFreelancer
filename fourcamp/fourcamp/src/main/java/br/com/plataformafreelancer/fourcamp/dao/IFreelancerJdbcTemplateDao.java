@@ -1,9 +1,15 @@
 package br.com.plataformafreelancer.fourcamp.dao;
 
+import br.com.plataformafreelancer.fourcamp.dtos.ProjetoCompatibilidadeDto;
+import br.com.plataformafreelancer.fourcamp.dtos.ResponseEmpresaCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.ResponseEmpresaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.ResponseFreelancerCompletaDto;
 import br.com.plataformafreelancer.fourcamp.model.Avaliacao;
 import br.com.plataformafreelancer.fourcamp.model.Freelancer;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
 import br.com.plataformafreelancer.fourcamp.model.Proposta;
+
+import java.util.List;
 
 public interface IFreelancerJdbcTemplateDao {
 
@@ -13,4 +19,11 @@ public interface IFreelancerJdbcTemplateDao {
 
     public  void avaliarEmpresa(Avaliacao avaliacao);
 
+    public List<ResponseEmpresaDto> listarEmpresas();
+
+    public List<Projeto> listarTodosProjetos();
+
+    public ResponseEmpresaCompletaDto obterDetalhesEmpresa(Integer empresaId);
+
+    List<ProjetoCompatibilidadeDto> buscarProjetosCompativeis(int idFreelancer);
 }

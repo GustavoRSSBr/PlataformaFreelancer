@@ -1,19 +1,19 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl;
 
 import br.com.plataformafreelancer.fourcamp.dao.IEmpresaJdbcTemplateDao;
+import br.com.plataformafreelancer.fourcamp.dao.impl.mapper.FreelancerCompletaDtoRowMapper;
 import br.com.plataformafreelancer.fourcamp.dao.impl.mapper.FreelancerDtoRowMapper;
-import br.com.plataformafreelancer.fourcamp.dto.ResponseFreelancerDto;
-import br.com.plataformafreelancer.fourcamp.dtos.RequestAnalisarPropostaDto;
+import br.com.plataformafreelancer.fourcamp.dao.impl.mapper.PropostaRowMapper;
+import br.com.plataformafreelancer.fourcamp.dtos.*;
 import br.com.plataformafreelancer.fourcamp.handler.GlobalExceptionHandler;
 import br.com.plataformafreelancer.fourcamp.model.Avaliacao;
 import br.com.plataformafreelancer.fourcamp.model.Empresa;
-import br.com.plataformafreelancer.fourcamp.model.Freelancer;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
+import br.com.plataformafreelancer.fourcamp.utils.LoggerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
 
     @Override
     public void salvarDadosCadastrais(Empresa empresa) {
-        LOGGER.info("Início do método salvarDadosCadastrais com empresa: {}", empresa);
+        LoggerUtils.logRequestStart(LOGGER, "salvarDadosCadastrais", empresa);
         try {
             String sql = "CALL cadastrar_empresa(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -53,16 +53,16 @@ public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
                     empresa.getRamoAtuacao(),
                     empresa.getSite()
             );
-            LOGGER.info("Dados cadastrais da empresa salvos com sucesso: {}", empresa);
+            LoggerUtils.logElapsedTime(LOGGER, "salvarDadosCadastrais", System.currentTimeMillis());
         } catch (DataAccessException e) {
-            LOGGER.error("Erro ao salvar dados cadastrais da empresa: {}", empresa, e);
+            LoggerUtils.logError(LOGGER, "salvarDadosCadastrais", empresa, e);
             GlobalExceptionHandler.handleException(e);
         }
     }
 
     @Override
     public void salvarDadosProjeto(Projeto projeto) {
-        LOGGER.info("Início do método salvarDadosProjeto com projeto: {}", projeto);
+        LoggerUtils.logRequestStart(LOGGER, "salvarDadosProjeto", projeto);
         try {
             String sql = "CALL cadastrarProjeto(?, ?, ?, ?, ?, ?, ?, ?)";
             jdbcTemplate.update(sql,
@@ -75,16 +75,16 @@ public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
                     projeto.getEmpresaId(),
                     projeto.getHabilidades().toArray(new String[0])
             );
-            LOGGER.info("Dados do projeto salvos com sucesso: {}", projeto);
+            LoggerUtils.logElapsedTime(LOGGER, "salvarDadosProjeto", System.currentTimeMillis());
         } catch (DataAccessException e) {
-            LOGGER.error("Erro ao salvar dados do projeto: {}", projeto, e);
+            LoggerUtils.logError(LOGGER, "salvarDadosProjeto", projeto, e);
             GlobalExceptionHandler.handleException(e);
         }
     }
 
     @Override
     public void analisarProposta(RequestAnalisarPropostaDto request) {
-        LOGGER.info("Início do método analisarProposta com request: {}", request);
+        LoggerUtils.logRequestStart(LOGGER, "analisarProposta", request);
         String sql = "CALL AtualizaStatusProposta(?, ?)";
 
         try {
@@ -92,16 +92,16 @@ public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
                     request.getIdProposta(),
                     request.getStatusProposta().toString()
             );
-            LOGGER.info("Proposta analisada com sucesso para o request: {}", request);
+            LoggerUtils.logElapsedTime(LOGGER, "analisarProposta", System.currentTimeMillis());
         } catch (DataAccessException e) {
-            LOGGER.error("Erro ao analisar proposta: {}", request, e);
+            LoggerUtils.logError(LOGGER, "analisarProposta", request, e);
             GlobalExceptionHandler.handleException(e);
         }
     }
 
     @Override
     public void avaliarFreelancer(Avaliacao avaliacao) {
-        LOGGER.info("Início do método avaliarFreelancer com avaliacao: {}", avaliacao);
+        LoggerUtils.logRequestStart(LOGGER, "avaliarFreelancer", avaliacao);
         try {
             String sql = "CALL enviar_avaliacao(?, ?, ?, ?, ?, ?, ?)";
             jdbcTemplate.update(sql,
@@ -113,9 +113,9 @@ public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
                     avaliacao.getComentario(),
                     avaliacao.getDataAvaliacao()
             );
-            LOGGER.info("Avaliação do freelancer enviada com sucesso: {}", avaliacao);
+            LoggerUtils.logElapsedTime(LOGGER, "avaliarFreelancer", System.currentTimeMillis());
         } catch (DataAccessException e) {
-            LOGGER.error("Erro ao enviar avaliação do freelancer: {}", avaliacao, e);
+            LoggerUtils.logError(LOGGER, "avaliarFreelancer", avaliacao, e);
             GlobalExceptionHandler.handleException(e);
         }
     }
@@ -132,5 +132,81 @@ public class EmpresaJdbcTemplateDaoImpl implements IEmpresaJdbcTemplateDao {
         }
     }
 
+    @Override
+    public ResponseFreelancerCompletaDto obterDetalhesFreelancer(Integer freelancerId) {
+        String sql = "SELECT * FROM obter_detalhes_freelancer(?)";
 
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{freelancerId}, new FreelancerCompletaDtoRowMapper());
+        } catch (DataAccessException e) {
+            GlobalExceptionHandler.handleException(e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<ResponsePropostaDto> listarPropostasPorProjeto(Integer projetoId) {
+        String sql = "SELECT * FROM listar_propostas_por_projeto(?)";
+        try {
+            return jdbcTemplate.query(sql, new Object[]{projetoId}, new PropostaRowMapper());
+        } catch (DataAccessException e) {
+            LoggerUtils.logError(LOGGER, "listarPropostasPorProjeto", projetoId, e);
+            GlobalExceptionHandler.handleException(e);
+            return null;
+        }
+    }
+
+    public void atualizarDadosEmpresa(RequestAtualizarEmpresaDto request) {
+        LoggerUtils.logRequestStart(LOGGER, "atualizarDadosEmpresa", request);
+        String sql = "CALL atualizar_empresa(?, ?, ?, ?, ?)";
+
+        try {
+            jdbcTemplate.update(sql,
+                    request.getIdEmpresa(),
+                    request.getNome(),
+                    request.getTelefone(),
+                    request.getRamoAtuacao(),
+                    request.getSite()
+            );
+            LoggerUtils.logElapsedTime(LOGGER, "atualizarDadosEmpresa", System.currentTimeMillis());
+        } catch (DataAccessException e) {
+            LoggerUtils.logError(LOGGER, "atualizarDadosEmpresa", request, e);
+            GlobalExceptionHandler.handleException(e);
+        }
+    }
+
+    @Override
+    public void atualizarProjeto(RequestAtualizarProjetoDto request) {
+        LoggerUtils.logRequestStart(LOGGER, "atualizarProjeto", request);
+        String sql = "CALL atualizar_projeto(?, ?, ?, ?, ?, ?)";
+
+        try {
+            jdbcTemplate.update(sql,
+                    request.getIdProjeto(),
+                    request.getTitulo(),
+                    request.getDescricao(),
+                    request.getOrcamento(),
+                    request.getPrazo(),
+                    request.getHabilidades().toArray(new String[0])
+            );
+            LoggerUtils.logElapsedTime(LOGGER, "atualizarProjeto", System.currentTimeMillis());
+        } catch (DataAccessException e) {
+            LoggerUtils.logError(LOGGER, "atualizarProjeto", request, e);
+            GlobalExceptionHandler.handleException(e);
+        }
+    }
+
+    @Override
+    public void excluirProjetoSeNaoAssociado(Integer idProjeto) {
+        LoggerUtils.logRequestStart(LOGGER, "excluirProjetoSeNaoAssociado", idProjeto);
+        String sql = "CALL excluir_projeto_se_nao_associado(?)";
+
+        try {
+            jdbcTemplate.update(sql, idProjeto);
+            LoggerUtils.logElapsedTime(LOGGER, "excluirProjetoSeNaoAssociado", System.currentTimeMillis());
+        } catch (DataAccessException e) {
+            LoggerUtils.logError(LOGGER, "excluirProjetoSeNaoAssociado", idProjeto, e);
+            GlobalExceptionHandler.handleException(e);
+        }
+    }
 }

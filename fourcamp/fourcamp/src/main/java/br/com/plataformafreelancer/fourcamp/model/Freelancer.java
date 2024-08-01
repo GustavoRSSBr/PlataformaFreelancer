@@ -25,6 +25,7 @@ public class Freelancer {
     private String disponibilidade;
     private String dataCriacao;
     private StatusFreelancer statusFreelancer;
+    private Double nota;
     private List<String> habilidades;
     private List<Avaliacao> avaliacoes;
 }

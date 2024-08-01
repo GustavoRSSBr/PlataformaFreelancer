@@ -1,7 +1,7 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl.mapper;
 
 import br.com.plataformafreelancer.fourcamp.enuns.StatusFreelancer;
-import br.com.plataformafreelancer.fourcamp.dto.ResponseFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.ResponseFreelancerDto;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -15,7 +15,6 @@ public class FreelancerDtoRowMapper implements RowMapper<ResponseFreelancerDto> 
                 .idFreelancer(rs.getInt("idFreelancer"))
                 .email(rs.getString("email"))
                 .nome(rs.getString("nome"))
-                .cpf(rs.getString("cpf"))
                 .dataNascimento(rs.getString("dataNascimento"))
                 .telefone(rs.getString("telefone"))
                 .cidade(rs.getString("cidade"))
@@ -23,7 +22,7 @@ public class FreelancerDtoRowMapper implements RowMapper<ResponseFreelancerDto> 
                 .descricao(rs.getString("descricao"))
                 .disponibilidade(rs.getString("disponibilidade"))
                 .dataCriacao(rs.getString("dataCriacao"))
-                .statusFreelancer(StatusFreelancer.valueOf(rs.getString("status")))
+                .statusFreelancer(StatusFreelancer.valueOf(rs.getString("status").toUpperCase()))
                 .habilidades(Arrays.asList(rs.getString("habilidades").split(",")))
                 .build();
     }

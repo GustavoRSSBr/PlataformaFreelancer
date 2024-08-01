@@ -29,6 +29,8 @@ public enum ErrorCode {
     SENHA_INVALIDA("Senha inválida", "Senha inválida: a senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial."),
     TELEFONE_INVALIDO("Número de telefone inválido", "Número de telefone inválido: "),
     LISTA_VAZIA("lista vazia", "Nenhum dado foi encontrado!"),
+    OBJETO_VAZIO("objeto não encontrado", "Nenhum dado foi encontrado!"),
+    PROJETO_NAO_EXCLUIDO("Projeto com id", "Projeto não pode ser excluído porque está associado a um freelancer."),
     OUTRO_ERRO("Outro erro", "Erro desconhecido");
 
     private final String message;

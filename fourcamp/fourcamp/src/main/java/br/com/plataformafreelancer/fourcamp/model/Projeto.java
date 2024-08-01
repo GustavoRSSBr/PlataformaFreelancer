@@ -23,8 +23,6 @@ public class Projeto {
     private Integer empresaId;
     private Integer freelancerId;
     private List<String> habilidades;
-
-
 }
 
 

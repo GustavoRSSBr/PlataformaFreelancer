@@ -13,3 +13,9 @@ spring:
     minimumIdle: 2
     idleTimeout: 20000
     poolName: PlataformaParaFreelancer-pool
+
+  springdoc:
+    api-docs:
+      path: /v3/api-docs
+    swagger-ui:
+      path: /swagger-ui.html

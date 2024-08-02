@@ -36,15 +36,10 @@ public class FreelancerController {
         LoggerUtils.logRequestStart(LOGGER, "cadastrarFreelancer", request);
         long startTime = System.currentTimeMillis();
 
-        try {
-            service.salvarDadosCadastrais(request);
-            ResponseEntity<StandardResponse> ok = ResponseEntity.ok(StandardResponse.builder().message("Freelancer cadastrado com sucesso!").build());
-            LoggerUtils.logElapsedTime(LOGGER, "cadastrarFreelancer", startTime);
-            return ok;
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "cadastrarFreelancer", request, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(StandardResponse.builder().message("Erro interno no servidor").build());
-        }
+        service.salvarDadosCadastrais(request);
+        ResponseEntity<StandardResponse> response = ResponseEntity.ok(StandardResponse.builder().message("Freelancer cadastrado com sucesso!").build());
+        LoggerUtils.logElapsedTime(LOGGER, "cadastrarFreelancer", startTime);
+        return response;
     }
 
     @Operation(summary = "Enviar uma proposta")
@@ -58,15 +53,10 @@ public class FreelancerController {
         LoggerUtils.logRequestStart(LOGGER, "enviarProposta", request);
         long startTime = System.currentTimeMillis();
 
-        try {
-            service.salvarProposta(request);
-            ResponseEntity<StandardResponse> ok = ResponseEntity.ok(StandardResponse.builder().message("Proposta enviada com sucesso!").build());
-            LoggerUtils.logElapsedTime(LOGGER, "enviarProposta", startTime);
-            return ok;
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "enviarProposta", request, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(StandardResponse.builder().message("Erro interno no servidor").build());
-        }
+        service.salvarProposta(request);
+        ResponseEntity<StandardResponse> response = ResponseEntity.ok(StandardResponse.builder().message("Proposta enviada com sucesso!").build());
+        LoggerUtils.logElapsedTime(LOGGER, "enviarProposta", startTime);
+        return response;
     }
 
     @Operation(summary = "Avaliar uma empresa")
@@ -80,15 +70,10 @@ public class FreelancerController {
         LoggerUtils.logRequestStart(LOGGER, "avaliarEmpresa", request);
         long startTime = System.currentTimeMillis();
 
-        try {
-            service.avaliarEmpresa(request);
-            ResponseEntity<StandardResponse> ok = ResponseEntity.ok(StandardResponse.builder().message("Avaliação enviada com sucesso!").build());
-            LoggerUtils.logElapsedTime(LOGGER, "avaliarEmpresa", startTime);
-            return ok;
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "avaliarEmpresa", request, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(StandardResponse.builder().message("Erro interno no servidor").build());
-        }
+        service.avaliarEmpresa(request);
+        ResponseEntity<StandardResponse> response = ResponseEntity.ok(StandardResponse.builder().message("Avaliação enviada com sucesso!").build());
+        LoggerUtils.logElapsedTime(LOGGER, "avaliarEmpresa", startTime);
+        return response;
     }
 
     @Operation(summary = "Listar empresas")
@@ -155,14 +140,9 @@ public class FreelancerController {
         LoggerUtils.logRequestStart(LOGGER, "atualizarFreelancer", request);
         long startTime = System.currentTimeMillis();
 
-        try {
-            service.atualizarDadosFreelancer(request);
-            ResponseEntity<StandardResponse> ok = ResponseEntity.ok(StandardResponse.builder().message("Freelancer atualizado com sucesso!").build());
-            LoggerUtils.logElapsedTime(LOGGER, "atualizarFreelancer", startTime);
-            return ok;
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "atualizarFreelancer", request, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(StandardResponse.builder().message("Erro interno no servidor").build());
-        }
+        service.atualizarDadosFreelancer(request);
+        ResponseEntity<StandardResponse> response = ResponseEntity.ok(StandardResponse.builder().message("Freelancer atualizado com sucesso!").build());
+        LoggerUtils.logElapsedTime(LOGGER, "atualizarFreelancer", startTime);
+        return response;
     }
 }

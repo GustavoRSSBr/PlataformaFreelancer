@@ -44,101 +44,85 @@ public class EmpresaService {
 
     public void salvarDadosCadastrais(RequestEmpresaDto request) {
         LoggerUtils.logRequestStart(LOGGER, "salvarDadosCadastrais", request);
-        try {
-            emailService.validarEmail(request.getEmail());
-            senhaService.validarSenha(request.getSenha());
-            EnderecoDto enderecoDto = cepService.buscaEnderecoPor(request.getCep());
-            cnpjService.validarCnpj(request.getCnpj());
-            telefoneService.validarNumeroTelefone(request.getTelefone());
 
-            Usuario usuario = Usuario.builder()
-                    .email(request.getEmail())
-                    .senha(request.getSenha())
-                    .tipoUsuario(TipoUsuario.EMPRESA)
-                    .build();
+        emailService.validarEmail(request.getEmail());
+        senhaService.validarSenha(request.getSenha());
+        EnderecoDto enderecoDto = cepService.buscaEnderecoPor(request.getCep());
+        cnpjService.validarCnpj(request.getCnpj());
+        telefoneService.validarNumeroTelefone(request.getTelefone());
 
-            Endereco endereco = Endereco.builder()
-                    .logradouro(enderecoDto.getLogradouro())
-                    .numero(request.getNumero())
-                    .complemento(request.getComplemento())
-                    .bairro(enderecoDto.getBairro())
-                    .cidade(enderecoDto.getLocalidade())
-                    .cep(enderecoDto.getCep())
-                    .estado(enderecoDto.getUf())
-                    .pais(request.getPais())
-                    .build();
+        Usuario usuario = Usuario.builder()
+                .email(request.getEmail())
+                .senha(request.getSenha())
+                .tipoUsuario(TipoUsuario.EMPRESA)
+                .build();
 
-            Empresa empresa = Empresa.builder()
-                    .usuario(usuario)
-                    .cnpj(request.getCnpj())
-                    .nome(request.getNome())
-                    .telefone(request.getTelefone())
-                    .endereco(endereco)
-                    .nomeEmpresa(request.getNomeEmpresa())
-                    .ramoAtuacao(request.getRamoAtuacao())
-                    .site(request.getSite())
-                    .build();
+        Endereco endereco = Endereco.builder()
+                .logradouro(enderecoDto.getLogradouro())
+                .numero(request.getNumero())
+                .complemento(request.getComplemento())
+                .bairro(enderecoDto.getBairro())
+                .cidade(enderecoDto.getLocalidade())
+                .cep(enderecoDto.getCep())
+                .estado(enderecoDto.getUf())
+                .pais(request.getPais())
+                .build();
 
-            empresaJdbcTemplateDao.salvarDadosCadastrais(empresa);
-            LoggerUtils.logElapsedTime(LOGGER, "salvarDadosCadastrais", System.currentTimeMillis());
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "salvarDadosCadastrais", request, e);
-            throw e;
-        }
+        Empresa empresa = Empresa.builder()
+                .usuario(usuario)
+                .cnpj(request.getCnpj())
+                .nome(request.getNome())
+                .telefone(request.getTelefone())
+                .endereco(endereco)
+                .nomeEmpresa(request.getNomeEmpresa())
+                .ramoAtuacao(request.getRamoAtuacao())
+                .site(request.getSite())
+                .build();
+
+        empresaJdbcTemplateDao.salvarDadosCadastrais(empresa);
+        LoggerUtils.logElapsedTime(LOGGER, "salvarDadosCadastrais", System.currentTimeMillis());
     }
 
     public void salvarDadosProjeto(RequestProjetoDto request) {
         LoggerUtils.logRequestStart(LOGGER, "salvarDadosProjeto", request);
-        try {
-            Projeto projeto = Projeto.builder()
-                    .titulo(request.getTitulo())
-                    .descricao(request.getDescricao())
-                    .orcamento(request.getOrçamento())
-                    .prazo(request.getPrazo())
-                    .empresaId(request.getIdEmpresa())
-                    .habilidades(request.getHabilidades())
-                    .statusProjeto(StatusProjeto.ATIVO)
-                    .dataCriacao(dataService.coletarDataHoraAtual())
-                    .build();
 
-            empresaJdbcTemplateDao.salvarDadosProjeto(projeto);
-            LoggerUtils.logElapsedTime(LOGGER, "salvarDadosProjeto", System.currentTimeMillis());
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "salvarDadosProjeto", request, e);
-            throw e;
-        }
+        Projeto projeto = Projeto.builder()
+                .titulo(request.getTitulo())
+                .descricao(request.getDescricao())
+                .orcamento(request.getOrcamento())
+                .prazo(request.getPrazo())
+                .empresaId(request.getIdEmpresa())
+                .habilidades(request.getHabilidades())
+                .statusProjeto(StatusProjeto.ATIVO)
+                .dataCriacao(dataService.coletarDataHoraAtual())
+                .build();
+
+        empresaJdbcTemplateDao.salvarDadosProjeto(projeto);
+        LoggerUtils.logElapsedTime(LOGGER, "salvarDadosProjeto", System.currentTimeMillis());
     }
 
     public void analisarProposta(RequestAnalisarPropostaDto request) {
         LoggerUtils.logRequestStart(LOGGER, "analisarProposta", request);
-        try {
-            empresaJdbcTemplateDao.analisarProposta(request);
-            LoggerUtils.logElapsedTime(LOGGER, "analisarProposta", System.currentTimeMillis());
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "analisarProposta", request, e);
-            throw e;
-        }
+
+        empresaJdbcTemplateDao.analisarProposta(request);
+        LoggerUtils.logElapsedTime(LOGGER, "analisarProposta", System.currentTimeMillis());
     }
 
     public void avaliarFreelancer(RequestAvaliacaoDto request) {
         LoggerUtils.logRequestStart(LOGGER, "avaliarFreelancer", request);
-        try {
-            Avaliacao avaliacao = Avaliacao.builder()
-                    .empresaId(request.getEmpresaId())
-                    .freelancerId(request.getFreelancerId())
-                    .projetoId(request.getProjetoId())
-                    .comentario(request.getComentario())
-                    .avaliado(TipoUsuario.FREELANCER)
-                    .nota(request.getNota())
-                    .dataAvaliacao(dataService.coletarDataHoraAtual())
-                    .build();
 
-            empresaJdbcTemplateDao.avaliarFreelancer(avaliacao);
-            LoggerUtils.logElapsedTime(LOGGER, "avaliarFreelancer", System.currentTimeMillis());
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "avaliarFreelancer", request, e);
-            throw e;
-        }
+        Avaliacao avaliacao = Avaliacao.builder()
+                .empresaId(request.getEmpresaId())
+                .freelancerId(request.getFreelancerId())
+                .projetoId(request.getProjetoId())
+                .comentario(request.getComentario())
+                .avaliado(TipoUsuario.FREELANCER)
+                .nota(request.getNota())
+                .dataAvaliacao(dataService.coletarDataHoraAtual())
+                .build();
+
+        empresaJdbcTemplateDao.avaliarFreelancer(avaliacao);
+        LoggerUtils.logElapsedTime(LOGGER, "avaliarFreelancer", System.currentTimeMillis());
     }
 
     public List<ResponseFreelancerDto> listarFreelancer() {
@@ -160,7 +144,7 @@ public class EmpresaService {
 
     public List<ResponsePropostaDto> listarPropostasPorProjeto(Integer projetoId) {
         List<ResponsePropostaDto> propostas = empresaJdbcTemplateDao.listarPropostasPorProjeto(projetoId);
-        if (propostas == null) {
+        if (propostas == null || propostas.isEmpty()) {
             throw new NaoEncontradoException(ErrorCode.LISTA_VAZIA.getCustomMessage());
         }
         return propostas;
@@ -177,10 +161,6 @@ public class EmpresaService {
     }
 
     public void excluirProjetoSeNaoAssociado(Integer idProjeto) {
-        try {
-            empresaJdbcTemplateDao.excluirProjetoSeNaoAssociado(idProjeto);
-        } catch (NaoEncontradoException e) {
-            throw new NaoEncontradoException(ErrorCode.OBJETO_VAZIO.getCustomMessage());
-        }
+        empresaJdbcTemplateDao.excluirProjetoSeNaoAssociado(idProjeto);
     }
 }

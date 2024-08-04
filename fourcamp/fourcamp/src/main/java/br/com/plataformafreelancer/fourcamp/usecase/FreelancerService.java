@@ -46,94 +46,82 @@ public class FreelancerService {
 
     public void salvarDadosCadastrais(RequestFreelancerDto request) {
         LoggerUtils.logRequestStart(LOGGER, "salvarDadosCadastrais", request);
-        try {
-            emailService.validarEmail(request.getEmail());
-            senhaService.validarSenha(request.getSenha());
-            nomeService.validarNome(request.getNome());
-            cpfService.validarCpf(request.getCpf());
-            dataService.validarDataNascimento(request.getDataNascimento());
-            telefoneService.validarNumeroTelefone(request.getTelefone());
 
-            EnderecoDto enderecoDto = cepService.buscaEnderecoPor(request.getCep());
+        emailService.validarEmail(request.getEmail());
+        senhaService.validarSenha(request.getSenha());
+        nomeService.validarNome(request.getNome());
+        cpfService.validarCpf(request.getCpf());
+        dataService.validarDataNascimento(request.getDataNascimento());
+        telefoneService.validarNumeroTelefone(request.getTelefone());
 
-            Usuario usuario = Usuario.builder()
-                    .email(request.getEmail())
-                    .senha(request.getSenha())
-                    .tipoUsuario(TipoUsuario.FREELANCER)
-                    .build();
+        EnderecoDto enderecoDto = cepService.buscaEnderecoPor(request.getCep());
 
-            Endereco endereco = Endereco.builder()
-                    .logradouro(enderecoDto.getLogradouro())
-                    .numero(request.getNumero())
-                    .complemento(request.getComplemento())
-                    .bairro(enderecoDto.getBairro())
-                    .cidade(enderecoDto.getLocalidade())
-                    .cep(enderecoDto.getCep())
-                    .estado(enderecoDto.getUf())
-                    .pais(request.getPais())
-                    .build();
+        Usuario usuario = Usuario.builder()
+                .email(request.getEmail())
+                .senha(request.getSenha())
+                .tipoUsuario(TipoUsuario.FREELANCER)
+                .build();
 
-            Freelancer freelancer = Freelancer.builder()
-                    .usuario(usuario)
-                    .nome(request.getNome())
-                    .cpf(request.getCpf())
-                    .dataNascimento(dataService.converterParaLocalDate(request.getDataNascimento()))
-                    .telefone(request.getTelefone())
-                    .endereco(endereco)
-                    .descricao(request.getDescricao())
-                    .disponibilidade(request.getDisponibilidade())
-                    .dataCriacao(dataService.coletarDataHoraAtual())
-                    .statusFreelancer(StatusFreelancer.ATIVO)
-                    .habilidades(request.getHabilidades())
-                    .build();
+        Endereco endereco = Endereco.builder()
+                .logradouro(enderecoDto.getLogradouro())
+                .numero(request.getNumero())
+                .complemento(request.getComplemento())
+                .bairro(enderecoDto.getBairro())
+                .cidade(enderecoDto.getLocalidade())
+                .cep(enderecoDto.getCep())
+                .estado(enderecoDto.getUf())
+                .pais(request.getPais())
+                .build();
 
-            freelancerJdbcTemplateDaoImpl.salvarDadosCadastrais(freelancer);
-            LoggerUtils.logElapsedTime(LOGGER, "salvarDadosCadastrais", System.currentTimeMillis());
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "salvarDadosCadastrais", request, e);
-            throw e;
-        }
+        Freelancer freelancer = Freelancer.builder()
+                .usuario(usuario)
+                .nome(request.getNome())
+                .cpf(request.getCpf())
+                .dataNascimento(dataService.converterParaLocalDate(request.getDataNascimento()))
+                .telefone(request.getTelefone())
+                .endereco(endereco)
+                .descricao(request.getDescricao())
+                .disponibilidade(request.getDisponibilidade())
+                .dataCriacao(dataService.coletarDataHoraAtual())
+                .statusFreelancer(StatusFreelancer.ATIVO)
+                .habilidades(request.getHabilidades())
+                .build();
+
+        freelancerJdbcTemplateDaoImpl.salvarDadosCadastrais(freelancer);
+        LoggerUtils.logElapsedTime(LOGGER, "salvarDadosCadastrais", System.currentTimeMillis());
     }
 
     public void salvarProposta(RequestPropostaDto request) {
         LoggerUtils.logRequestStart(LOGGER, "salvarProposta", request);
-        try {
-            Proposta proposta = Proposta.builder()
-                    .freelancerId(request.getFreelancerId())
-                    .projetoId(request.getProjetoId())
-                    .valor(request.getValor())
-                    .observacao(request.getObservacao())
-                    .statusProposta(StatusProposta.PENDENTE)
-                    .dataCriacao(dataService.coletarDataHoraAtual())
-                    .build();
 
-            freelancerJdbcTemplateDaoImpl.salvarProposta(proposta);
-            LoggerUtils.logElapsedTime(LOGGER, "salvarProposta", System.currentTimeMillis());
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "salvarProposta", request, e);
-            throw e;
-        }
+        Proposta proposta = Proposta.builder()
+                .freelancerId(request.getFreelancerId())
+                .projetoId(request.getProjetoId())
+                .valor(request.getValor())
+                .observacao(request.getObservacao())
+                .statusProposta(StatusProposta.PENDENTE)
+                .dataCriacao(dataService.coletarDataHoraAtual())
+                .build();
+
+        freelancerJdbcTemplateDaoImpl.salvarProposta(proposta);
+        LoggerUtils.logElapsedTime(LOGGER, "salvarProposta", System.currentTimeMillis());
     }
 
     public void avaliarEmpresa(RequestAvaliacaoDto request) {
         LoggerUtils.logRequestStart(LOGGER, "avaliarEmpresa", request);
-        try {
-            Avaliacao avaliacao = Avaliacao.builder()
-                    .empresaId(request.getEmpresaId())
-                    .freelancerId(request.getFreelancerId())
-                    .projetoId(request.getProjetoId())
-                    .comentario(request.getComentario())
-                    .avaliado(TipoUsuario.EMPRESA)
-                    .nota(request.getNota())
-                    .dataAvaliacao(dataService.coletarDataHoraAtual())
-                    .build();
 
-            freelancerJdbcTemplateDaoImpl.avaliarEmpresa(avaliacao);
-            LoggerUtils.logElapsedTime(LOGGER, "avaliarEmpresa", System.currentTimeMillis());
-        } catch (Exception e) {
-            LoggerUtils.logError(LOGGER, "avaliarEmpresa", request, e);
-            throw e;
-        }
+        Avaliacao avaliacao = Avaliacao.builder()
+                .empresaId(request.getEmpresaId())
+                .freelancerId(request.getFreelancerId())
+                .projetoId(request.getProjetoId())
+                .comentario(request.getComentario())
+                .avaliado(TipoUsuario.EMPRESA)
+                .nota(request.getNota())
+                .dataAvaliacao(dataService.coletarDataHoraAtual())
+                .build();
+
+        freelancerJdbcTemplateDaoImpl.avaliarEmpresa(avaliacao);
+        LoggerUtils.logElapsedTime(LOGGER, "avaliarEmpresa", System.currentTimeMillis());
     }
 
     public List<ResponseEmpresaDto> listarEmpresa() {

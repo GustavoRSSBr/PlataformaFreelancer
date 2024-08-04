@@ -14,7 +14,7 @@ import java.util.List;
 public class RequestProjetoDto {
     private String titulo;
     private String descricao;
-    private String orçamento;
+    private String orcamento;
     private String prazo;
     private Integer idEmpresa;
     private List<String> habilidades;

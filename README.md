@@ -64,7 +64,7 @@ A **Plataforma Freelancer** é uma aplicação desenvolvida para conectar freela
 ## Como Usar
 
 
-Para mais detalhes sobre os endpoints, acesse o Swagger UI em `http://localhost:8080/swagger-ui/index.html#/`.
+Para mais detalhes sobre os endpoints, com a aplicação inicializada, acesse o Swagger UI em `http://localhost:8080/swagger-ui/index.html#/`.
 
 ## Funcionalidades Principais
 

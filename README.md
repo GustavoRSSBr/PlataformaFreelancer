@@ -1,9 +1,3 @@
----
-title: Plataforma Freelancer
-
----
-
-
 # Plataforma Freelancer
 
 ## Descrição do Projeto
@@ -66,7 +60,6 @@ A **Plataforma Freelancer** é uma aplicação desenvolvida para conectar freela
 4. **Acessar a Aplicação**
 
    - A aplicação estará disponível em `http://localhost:8080`.
-   - Para verificar mais detalhes dos endpoints disponíveis, após iniciar a aplicação acesse a documentação Swagger em: `http://localhost:8080/swagger-ui/index.html#/`.
 
 ## Como Usar
 
@@ -97,7 +90,3 @@ Para contribuir com este projeto:
 3. Commit suas alterações (`git commit -m 'Adiciona nova feature'`).
 4. Faça o push para a branch (`git push origin feature/nova-feature`).
 5. Abra um Pull Request.
-
-## Licença
-
-Este projeto está licenciado sob os termos da licença MIT. Veja o arquivo `LICENSE` para mais detalhes.

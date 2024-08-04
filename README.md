@@ -40,7 +40,7 @@ A **Plataforma Freelancer** é uma aplicação desenvolvida para conectar freela
 1. **Clonar o Repositório**
 
    ```bash
-   git clone <https://github.com/GustavoRSSBr/PlataformaFreelancer.git>
+   git clone https://github.com/GustavoRSSBr/PlataformaFreelancer.git
    cd PlataformaFreelancer
    ```
 

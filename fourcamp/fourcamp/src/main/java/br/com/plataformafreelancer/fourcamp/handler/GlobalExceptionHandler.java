@@ -3,7 +3,6 @@ package br.com.plataformafreelancer.fourcamp.handler;
 import br.com.plataformafreelancer.fourcamp.dtos.ErrorResponseDto;
 import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.exceptions.NegocioException;
-import br.com.plataformafreelancer.fourcamp.utils.JsonErrorUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseBody
     public ResponseEntity<ErrorResponseDto> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        String errorMessage = JsonErrorUtils.getErrorMessage(e);
+        String errorMessage = "Dados inválido";
         ErrorResponseDto errorResponse = new ErrorResponseDto(HttpStatus.BAD_REQUEST.value(), errorMessage);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

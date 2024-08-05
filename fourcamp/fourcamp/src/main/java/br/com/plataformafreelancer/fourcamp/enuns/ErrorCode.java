@@ -31,6 +31,7 @@ public enum ErrorCode {
     LISTA_VAZIA("lista vazia", "Nenhum dado foi encontrado!"),
     OBJETO_VAZIO("objeto não encontrado", "Nenhum dado foi encontrado!"),
     PROJETO_NAO_EXCLUIDO("Projeto com id", "Projeto não pode ser excluído porque está associado a um freelancer."),
+    DADO_INVALIDO("Dado invalido no Json", "Dado Inválido no Json"),
     OUTRO_ERRO("Outro erro", "Erro desconhecido");
 
     private final String message;

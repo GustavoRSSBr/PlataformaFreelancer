@@ -37,14 +37,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    public static void handleException(DataAccessException e) {
+    @ExceptionHandler(DataAccessException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorResponseDto> handleDataAccessException(DataAccessException e) {
         String errorMessage = e.getMostSpecificCause().getMessage();
         ErrorCode errorCode = ErrorCode.fromMessage(errorMessage);
 
         if (errorCode == ErrorCode.OUTRO_ERRO) {
-            throw new RuntimeException("Outro erro: " + errorMessage);
+            ErrorResponseDto errorResponse = new ErrorResponseDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Outro erro: " + errorMessage);
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
-            throw new NegocioException(errorCode.getCustomMessage());
+            ErrorResponseDto errorResponse = new ErrorResponseDto(HttpStatus.BAD_REQUEST.value(), errorCode.getCustomMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
 }

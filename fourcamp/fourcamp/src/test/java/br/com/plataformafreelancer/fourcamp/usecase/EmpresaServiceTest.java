@@ -91,7 +91,7 @@ public class EmpresaServiceTest {
         RequestProjetoDto requestDto = new RequestProjetoDto();
         requestDto.setTitulo("Projeto X");
         requestDto.setDescricao("Descrição do projeto X");
-        requestDto.setOrçamento("5000");
+        requestDto.setOrcamento("5000");
         requestDto.setPrazo("2023-12-31");
         requestDto.setIdEmpresa(1);
 

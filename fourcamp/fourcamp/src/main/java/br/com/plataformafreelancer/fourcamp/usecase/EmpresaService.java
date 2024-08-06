@@ -1,7 +1,10 @@
 package br.com.plataformafreelancer.fourcamp.usecase;
 
 import br.com.plataformafreelancer.fourcamp.dao.impl.EmpresaJdbcTemplateDaoImpl;
-import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEnderecoDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseFreelancerCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponsePropostaDto;
 import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusProjeto;
 import br.com.plataformafreelancer.fourcamp.enuns.TipoUsuario;
@@ -12,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.com.plataformafreelancer.fourcamp.dtos.ResponseFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseFreelancerDto;
 
 import java.util.List;
 
@@ -47,7 +50,7 @@ public class EmpresaService {
 
         emailService.validarEmail(request.getEmail());
         senhaService.validarSenha(request.getSenha());
-        EnderecoDto enderecoDto = cepService.buscaEnderecoPor(request.getCep());
+        ResponseEnderecoDto responseEnderecoDto = cepService.buscaEnderecoPor(request.getCep());
         cnpjService.validarCnpj(request.getCnpj());
         telefoneService.validarNumeroTelefone(request.getTelefone());
 
@@ -58,13 +61,13 @@ public class EmpresaService {
                 .build();
 
         Endereco endereco = Endereco.builder()
-                .logradouro(enderecoDto.getLogradouro())
+                .logradouro(responseEnderecoDto.getLogradouro())
                 .numero(request.getNumero())
                 .complemento(request.getComplemento())
-                .bairro(enderecoDto.getBairro())
-                .cidade(enderecoDto.getLocalidade())
-                .cep(enderecoDto.getCep())
-                .estado(enderecoDto.getUf())
+                .bairro(responseEnderecoDto.getBairro())
+                .cidade(responseEnderecoDto.getLocalidade())
+                .cep(responseEnderecoDto.getCep())
+                .estado(responseEnderecoDto.getUf())
                 .pais(request.getPais())
                 .build();
 

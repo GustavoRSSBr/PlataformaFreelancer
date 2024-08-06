@@ -1,6 +1,6 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl.mapper;
 
-import br.com.plataformafreelancer.fourcamp.dtos.ResponseEmpresaCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaCompletaDto;
 import br.com.plataformafreelancer.fourcamp.model.Avaliacao;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
 import com.fasterxml.jackson.databind.ObjectMapper;

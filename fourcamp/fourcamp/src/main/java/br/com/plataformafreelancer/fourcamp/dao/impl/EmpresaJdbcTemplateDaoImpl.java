@@ -4,7 +4,12 @@ import br.com.plataformafreelancer.fourcamp.dao.IEmpresaJdbcTemplateDao;
 import br.com.plataformafreelancer.fourcamp.dao.impl.mapper.FreelancerCompletaDtoRowMapper;
 import br.com.plataformafreelancer.fourcamp.dao.impl.mapper.FreelancerDtoRowMapper;
 import br.com.plataformafreelancer.fourcamp.dao.impl.mapper.PropostaRowMapper;
-import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAnalisarPropostaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAtualizarEmpresaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAtualizarProjetoDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseFreelancerCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponsePropostaDto;
 import br.com.plataformafreelancer.fourcamp.model.Avaliacao;
 import br.com.plataformafreelancer.fourcamp.model.Empresa;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
@@ -12,11 +17,9 @@ import br.com.plataformafreelancer.fourcamp.utils.LoggerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service

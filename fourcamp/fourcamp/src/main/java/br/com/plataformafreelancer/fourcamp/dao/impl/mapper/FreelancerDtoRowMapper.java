@@ -1,7 +1,7 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl.mapper;
 
 import br.com.plataformafreelancer.fourcamp.enuns.StatusFreelancer;
-import br.com.plataformafreelancer.fourcamp.dtos.ResponseFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseFreelancerDto;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

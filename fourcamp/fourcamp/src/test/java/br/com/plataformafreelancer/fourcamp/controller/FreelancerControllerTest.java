@@ -1,6 +1,12 @@
 package br.com.plataformafreelancer.fourcamp.controller;
 
-import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAtualizarFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAvaliacaoDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestPropostaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseProjetoCompatibilidadeDto;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
 import br.com.plataformafreelancer.fourcamp.model.StandardResponse;
 import br.com.plataformafreelancer.fourcamp.usecase.FreelancerService;
@@ -161,26 +167,26 @@ public class FreelancerControllerTest {
     public void testBuscarProjetoCompativel() {
         Integer freelancerId = 1;
 
-        ProjetoCompatibilidadeDto projeto1 = ProjetoCompatibilidadeDto.builder()
+        ResponseProjetoCompatibilidadeDto projeto1 = ResponseProjetoCompatibilidadeDto.builder()
                 .idProjeto(1)
                 .titulo("Projeto One")
                 .descricao("Descrição do Projeto One")
                 .build();
 
-        ProjetoCompatibilidadeDto projeto2 = ProjetoCompatibilidadeDto.builder()
+        ResponseProjetoCompatibilidadeDto projeto2 = ResponseProjetoCompatibilidadeDto.builder()
                 .idProjeto(2)
                 .titulo("Projeto Two")
                 .descricao("Descrição do Projeto Two")
                 .build();
 
-        List<ProjetoCompatibilidadeDto> projetosMock = Arrays.asList(projeto1, projeto2);
+        List<ResponseProjetoCompatibilidadeDto> projetosMock = Arrays.asList(projeto1, projeto2);
 
         when(freelancerService.listaProjetosCompativeis(freelancerId)).thenReturn(projetosMock);
 
         ResponseEntity<?> response = freelancerController.buscarProjetoCompativel(freelancerId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        List<ProjetoCompatibilidadeDto> responseBody = (List<ProjetoCompatibilidadeDto>) response.getBody();
+        List<ResponseProjetoCompatibilidadeDto> responseBody = (List<ResponseProjetoCompatibilidadeDto>) response.getBody();
         assertEquals(2, responseBody.size());
         assertEquals(projeto1, responseBody.get(0));
         assertEquals(projeto2, responseBody.get(1));

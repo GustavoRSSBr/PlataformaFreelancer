@@ -2,10 +2,10 @@ package br.com.plataformafreelancer.fourcamp.dao.impl;
 
 import br.com.plataformafreelancer.fourcamp.dao.IFreelancerJdbcTemplateDao;
 import br.com.plataformafreelancer.fourcamp.dao.impl.mapper.*;
-import br.com.plataformafreelancer.fourcamp.dtos.ProjetoCompatibilidadeDto;
-import br.com.plataformafreelancer.fourcamp.dtos.RequestAtualizarFreelancerDto;
-import br.com.plataformafreelancer.fourcamp.dtos.ResponseEmpresaCompletaDto;
-import br.com.plataformafreelancer.fourcamp.dtos.ResponseEmpresaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseProjetoCompatibilidadeDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAtualizarFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaDto;
 import br.com.plataformafreelancer.fourcamp.model.Avaliacao;
 import br.com.plataformafreelancer.fourcamp.model.Freelancer;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -106,7 +105,7 @@ public class FreelancerJdbcTemplateDaoImpl implements IFreelancerJdbcTemplateDao
     }
 
     @Override
-    public List<ProjetoCompatibilidadeDto> buscarProjetosCompativeis(int idFreelancer) {
+    public List<ResponseProjetoCompatibilidadeDto> buscarProjetosCompativeis(int idFreelancer) {
         LoggerUtils.logRequestStart(LOGGER, "buscarProjetosCompativeis", idFreelancer);
         String sql = "SELECT * FROM buscar_projetos_compatíveis(?)";
         return jdbcTemplate.query(sql, new Object[]{idFreelancer}, new ProjetoCompatibilidadeDtoRowMapper());

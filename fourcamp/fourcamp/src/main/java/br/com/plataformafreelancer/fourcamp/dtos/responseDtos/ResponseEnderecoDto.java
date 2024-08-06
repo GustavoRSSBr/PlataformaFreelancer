@@ -1,4 +1,4 @@
-package br.com.plataformafreelancer.fourcamp.dtos;
+package br.com.plataformafreelancer.fourcamp.dtos.responseDtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EnderecoDto {
+public class ResponseEnderecoDto {
     private String cep;
     private String logradouro;
     private String complemento;

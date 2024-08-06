@@ -1,6 +1,6 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl.mapper;
 
-import br.com.plataformafreelancer.fourcamp.dtos.ResponseEmpresaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaDto;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

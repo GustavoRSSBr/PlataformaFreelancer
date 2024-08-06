@@ -1,16 +1,16 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl.mapper;
 
-import br.com.plataformafreelancer.fourcamp.dtos.ProjetoCompatibilidadeDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseProjetoCompatibilidadeDto;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProjetoCompatibilidadeDtoRowMapper implements RowMapper<ProjetoCompatibilidadeDto> {
+public class ProjetoCompatibilidadeDtoRowMapper implements RowMapper<ResponseProjetoCompatibilidadeDto> {
 
     @Override
-    public ProjetoCompatibilidadeDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-        ProjetoCompatibilidadeDto projeto = new ProjetoCompatibilidadeDto();
+    public ResponseProjetoCompatibilidadeDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+        ResponseProjetoCompatibilidadeDto projeto = new ResponseProjetoCompatibilidadeDto();
         projeto.setIdProjeto(rs.getInt("idProjeto"));
         projeto.setTitulo(rs.getString("titulo"));
         projeto.setDescricao(rs.getString("descricao"));

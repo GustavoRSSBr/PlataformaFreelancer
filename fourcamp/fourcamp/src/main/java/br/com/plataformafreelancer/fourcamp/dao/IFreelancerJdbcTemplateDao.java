@@ -1,9 +1,8 @@
 package br.com.plataformafreelancer.fourcamp.dao;
 
-import br.com.plataformafreelancer.fourcamp.dtos.ProjetoCompatibilidadeDto;
-import br.com.plataformafreelancer.fourcamp.dtos.ResponseEmpresaCompletaDto;
-import br.com.plataformafreelancer.fourcamp.dtos.ResponseEmpresaDto;
-import br.com.plataformafreelancer.fourcamp.dtos.ResponseFreelancerCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseProjetoCompatibilidadeDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaDto;
 import br.com.plataformafreelancer.fourcamp.model.Avaliacao;
 import br.com.plataformafreelancer.fourcamp.model.Freelancer;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
@@ -25,5 +24,5 @@ public interface IFreelancerJdbcTemplateDao {
 
     public ResponseEmpresaCompletaDto obterDetalhesEmpresa(Integer empresaId);
 
-    List<ProjetoCompatibilidadeDto> buscarProjetosCompativeis(int idFreelancer);
+    List<ResponseProjetoCompatibilidadeDto> buscarProjetosCompativeis(int idFreelancer);
 }

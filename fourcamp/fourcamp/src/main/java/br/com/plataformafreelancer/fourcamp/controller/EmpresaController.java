@@ -1,6 +1,9 @@
 package br.com.plataformafreelancer.fourcamp.controller;
 
-import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseFreelancerCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponsePropostaDto;
 import br.com.plataformafreelancer.fourcamp.model.StandardResponse;
 import br.com.plataformafreelancer.fourcamp.usecase.EmpresaService;
 import br.com.plataformafreelancer.fourcamp.utils.LoggerUtils;

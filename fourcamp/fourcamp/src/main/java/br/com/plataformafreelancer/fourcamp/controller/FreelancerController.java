@@ -1,6 +1,12 @@
 package br.com.plataformafreelancer.fourcamp.controller;
 
-import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAtualizarFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAvaliacaoDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestPropostaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseProjetoCompatibilidadeDto;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
 import br.com.plataformafreelancer.fourcamp.model.StandardResponse;
 import br.com.plataformafreelancer.fourcamp.usecase.FreelancerService;
@@ -124,7 +130,7 @@ public class FreelancerController {
     @GetMapping("/v1/buscar-projeto-compativel/{id}")
     public ResponseEntity<?> buscarProjetoCompativel(@PathVariable("id") Integer id) {
         long startTime = System.currentTimeMillis();
-        List<ProjetoCompatibilidadeDto> empresa = service.listaProjetosCompativeis(id);
+        List<ResponseProjetoCompatibilidadeDto> empresa = service.listaProjetosCompativeis(id);
         LoggerUtils.logElapsedTime(LOGGER, "buscarProjetoCompativel", startTime);
         return new ResponseEntity<>(empresa, HttpStatus.OK);
     }

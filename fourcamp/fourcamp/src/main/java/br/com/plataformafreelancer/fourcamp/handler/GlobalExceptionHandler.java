@@ -1,6 +1,6 @@
 package br.com.plataformafreelancer.fourcamp.handler;
 
-import br.com.plataformafreelancer.fourcamp.dtos.ErrorResponseDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ErrorResponseDto;
 import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.exceptions.NegocioException;
 import org.springframework.dao.DataAccessException;

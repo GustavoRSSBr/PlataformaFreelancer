@@ -1,4 +1,4 @@
-package br.com.plataformafreelancer.fourcamp.dtos;
+package br.com.plataformafreelancer.fourcamp.dtos.responseDtos;
 
 import br.com.plataformafreelancer.fourcamp.enuns.StatusProposta;
 import lombok.AllArgsConstructor;

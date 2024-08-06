@@ -1,7 +1,10 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl;
 
 import br.com.plataformafreelancer.fourcamp.dao.impl.mapper.*;
-import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAtualizarFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseProjetoCompatibilidadeDto;
 import br.com.plataformafreelancer.fourcamp.model.*;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusProposta;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusFreelancer;
@@ -138,12 +141,12 @@ public class FreelancerJdbcTemplateDaoImplTest {
 
     @Test
     public void testBuscarProjetosCompativeis() {
-        List<ProjetoCompatibilidadeDto> expectedList = Arrays.asList(new ProjetoCompatibilidadeDto(), new ProjetoCompatibilidadeDto());
+        List<ResponseProjetoCompatibilidadeDto> expectedList = Arrays.asList(new ResponseProjetoCompatibilidadeDto(), new ResponseProjetoCompatibilidadeDto());
 
         when(jdbcTemplate.query(eq("SELECT * FROM buscar_projetos_compatíveis(?)"), any(Object[].class), any(ProjetoCompatibilidadeDtoRowMapper.class)))
                 .thenReturn(expectedList);
 
-        List<ProjetoCompatibilidadeDto> actualList = freelancerJdbcTemplateDaoImpl.buscarProjetosCompativeis(1);
+        List<ResponseProjetoCompatibilidadeDto> actualList = freelancerJdbcTemplateDaoImpl.buscarProjetosCompativeis(1);
 
         assertEquals(expectedList, actualList);
         verify(jdbcTemplate, times(1)).query(eq("SELECT * FROM buscar_projetos_compatíveis(?)"), any(Object[].class), any(ProjetoCompatibilidadeDtoRowMapper.class));

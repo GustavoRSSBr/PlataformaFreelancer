@@ -1,4 +1,4 @@
-package br.com.plataformafreelancer.fourcamp.dtos;
+package br.com.plataformafreelancer.fourcamp.dtos.responseDtos;
 
 import br.com.plataformafreelancer.fourcamp.model.Avaliacao;
 import br.com.plataformafreelancer.fourcamp.model.Projeto;
@@ -13,11 +13,11 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseEmpresaCompletaDto {
-    private Integer idEmpresa;
+public class ResponseFreelancerCompletaDto {
+    private Integer idFreelancer;
     private String email;
-    private String cnpj;
     private String nome;
+    private String dataNascimento;
     private String telefone;
     private String logradouro;
     private String numero;
@@ -27,10 +27,12 @@ public class ResponseEmpresaCompletaDto {
     private String cep;
     private String estado;
     private String pais;
-    private String nomeEmpresa;
-    private String ramoAtuacao;
-    private String site;
+    private String descricao;
+    private String disponibilidade;
+    private String dataCriacao;
+    private String statusFreelancer;
     private Double notaMedia;
+    private List<String> habilidades;
     private List<Avaliacao> avaliacoes;
     private List<Projeto> projetos;
 }

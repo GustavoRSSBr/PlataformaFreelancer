@@ -1,7 +1,14 @@
 package br.com.plataformafreelancer.fourcamp.usecase;
 
 import br.com.plataformafreelancer.fourcamp.dao.impl.FreelancerJdbcTemplateDaoImpl;
-import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAtualizarFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAvaliacaoDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestPropostaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEnderecoDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseProjetoCompatibilidadeDto;
 import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusFreelancer;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusProposta;
@@ -54,7 +61,7 @@ public class FreelancerService {
         dataService.validarDataNascimento(request.getDataNascimento());
         telefoneService.validarNumeroTelefone(request.getTelefone());
 
-        EnderecoDto enderecoDto = cepService.buscaEnderecoPor(request.getCep());
+        ResponseEnderecoDto responseEnderecoDto = cepService.buscaEnderecoPor(request.getCep());
 
         Usuario usuario = Usuario.builder()
                 .email(request.getEmail())
@@ -63,13 +70,13 @@ public class FreelancerService {
                 .build();
 
         Endereco endereco = Endereco.builder()
-                .logradouro(enderecoDto.getLogradouro())
+                .logradouro(responseEnderecoDto.getLogradouro())
                 .numero(request.getNumero())
                 .complemento(request.getComplemento())
-                .bairro(enderecoDto.getBairro())
-                .cidade(enderecoDto.getLocalidade())
-                .cep(enderecoDto.getCep())
-                .estado(enderecoDto.getUf())
+                .bairro(responseEnderecoDto.getBairro())
+                .cidade(responseEnderecoDto.getLocalidade())
+                .cep(responseEnderecoDto.getCep())
+                .estado(responseEnderecoDto.getUf())
                 .pais(request.getPais())
                 .build();
 
@@ -148,8 +155,8 @@ public class FreelancerService {
         return empresa;
     }
 
-    public List<ProjetoCompatibilidadeDto> listaProjetosCompativeis(Integer id) {
-        List<ProjetoCompatibilidadeDto> lista = freelancerJdbcTemplateDaoImpl.buscarProjetosCompativeis(id);
+    public List<ResponseProjetoCompatibilidadeDto> listaProjetosCompativeis(Integer id) {
+        List<ResponseProjetoCompatibilidadeDto> lista = freelancerJdbcTemplateDaoImpl.buscarProjetosCompativeis(id);
         if (lista == null || lista.isEmpty()) {
             throw new NaoEncontradoException(ErrorCode.LISTA_VAZIA.getCustomMessage());
         }
@@ -159,7 +166,7 @@ public class FreelancerService {
     public void atualizarDadosFreelancer(RequestAtualizarFreelancerDto freelancer) {
         telefoneService.validarNumeroTelefone(freelancer.getTelefone());
 
-        EnderecoDto endereco = cepService.buscaEnderecoPor(freelancer.getCep());
+        ResponseEnderecoDto endereco = cepService.buscaEnderecoPor(freelancer.getCep());
 
         freelancer.setBairro(endereco.getBairro());
         freelancer.setCidade(endereco.getLocalidade());

@@ -1,7 +1,14 @@
 package br.com.plataformafreelancer.fourcamp.usecase;
 
 import br.com.plataformafreelancer.fourcamp.dao.impl.FreelancerJdbcTemplateDaoImpl;
-import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAtualizarFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestAvaliacaoDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.RequestPropostaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEmpresaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEnderecoDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseProjetoCompatibilidadeDto;
 import br.com.plataformafreelancer.fourcamp.exceptions.NaoEncontradoException;
 import br.com.plataformafreelancer.fourcamp.model.*;
 import br.com.plataformafreelancer.fourcamp.utils.*;
@@ -55,12 +62,12 @@ public class FreelancerServiceTest {
 
     @Test
     public void testSalvarDadosCadastrais() {
-        EnderecoDto enderecoDto = new EnderecoDto();
-        enderecoDto.setLogradouro("Rua Exemplo");
-        enderecoDto.setBairro("Centro");
-        enderecoDto.setLocalidade("São Paulo");
-        enderecoDto.setCep("01000-000");
-        enderecoDto.setUf("SP");
+        ResponseEnderecoDto responseEnderecoDto = new ResponseEnderecoDto();
+        responseEnderecoDto.setLogradouro("Rua Exemplo");
+        responseEnderecoDto.setBairro("Centro");
+        responseEnderecoDto.setLocalidade("São Paulo");
+        responseEnderecoDto.setCep("01000-000");
+        responseEnderecoDto.setUf("SP");
 
         RequestFreelancerDto requestDto = new RequestFreelancerDto();
         requestDto.setEmail("freelancer@exemplo.com");
@@ -71,7 +78,7 @@ public class FreelancerServiceTest {
         requestDto.setNome("Freelancer Exemplo");
         requestDto.setDescricao("Desenvolvedor Java");
 
-        when(cepService.buscaEnderecoPor(requestDto.getCep())).thenReturn(enderecoDto);
+        when(cepService.buscaEnderecoPor(requestDto.getCep())).thenReturn(responseEnderecoDto);
         doNothing().when(emailService).validarEmail(requestDto.getEmail());
         doNothing().when(senhaService).validarSenha(requestDto.getSenha());
         doNothing().when(nomeService).validarNome(requestDto.getNome());
@@ -184,13 +191,13 @@ public class FreelancerServiceTest {
 
     @Test
     public void testListaProjetosCompativeis() {
-        ProjetoCompatibilidadeDto projeto1 = new ProjetoCompatibilidadeDto();
-        ProjetoCompatibilidadeDto projeto2 = new ProjetoCompatibilidadeDto();
-        List<ProjetoCompatibilidadeDto> projetos = Arrays.asList(projeto1, projeto2);
+        ResponseProjetoCompatibilidadeDto projeto1 = new ResponseProjetoCompatibilidadeDto();
+        ResponseProjetoCompatibilidadeDto projeto2 = new ResponseProjetoCompatibilidadeDto();
+        List<ResponseProjetoCompatibilidadeDto> projetos = Arrays.asList(projeto1, projeto2);
 
         when(freelancerJdbcTemplateDaoImpl.buscarProjetosCompativeis(anyInt())).thenReturn(projetos);
 
-        List<ProjetoCompatibilidadeDto> result = freelancerService.listaProjetosCompativeis(1);
+        List<ResponseProjetoCompatibilidadeDto> result = freelancerService.listaProjetosCompativeis(1);
 
         assertEquals(2, result.size());
         verify(freelancerJdbcTemplateDaoImpl).buscarProjetosCompativeis(anyInt());
@@ -211,14 +218,14 @@ public class FreelancerServiceTest {
         freelancerDto.setTelefone("11987654321");
         freelancerDto.setCep("01000-000");
 
-        EnderecoDto enderecoDto = new EnderecoDto();
-        enderecoDto.setLogradouro("Rua Exemplo");
-        enderecoDto.setBairro("Centro");
-        enderecoDto.setLocalidade("São Paulo");
-        enderecoDto.setCep("01000-000");
-        enderecoDto.setUf("SP");
+        ResponseEnderecoDto responseEnderecoDto = new ResponseEnderecoDto();
+        responseEnderecoDto.setLogradouro("Rua Exemplo");
+        responseEnderecoDto.setBairro("Centro");
+        responseEnderecoDto.setLocalidade("São Paulo");
+        responseEnderecoDto.setCep("01000-000");
+        responseEnderecoDto.setUf("SP");
 
-        when(cepService.buscaEnderecoPor(freelancerDto.getCep())).thenReturn(enderecoDto);
+        when(cepService.buscaEnderecoPor(freelancerDto.getCep())).thenReturn(responseEnderecoDto);
         doNothing().when(telefoneService).validarNumeroTelefone(freelancerDto.getTelefone());
 
         freelancerService.atualizarDadosFreelancer(freelancerDto);

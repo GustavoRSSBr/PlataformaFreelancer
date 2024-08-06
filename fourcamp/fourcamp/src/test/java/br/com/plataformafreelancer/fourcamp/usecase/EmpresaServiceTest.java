@@ -1,7 +1,11 @@
 package br.com.plataformafreelancer.fourcamp.usecase;
 
 import br.com.plataformafreelancer.fourcamp.dao.impl.EmpresaJdbcTemplateDaoImpl;
-import br.com.plataformafreelancer.fourcamp.dtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.requestDtos.*;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseEnderecoDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseFreelancerCompletaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponseFreelancerDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponsePropostaDto;
 import br.com.plataformafreelancer.fourcamp.enuns.ErrorCode;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusProposta;
 import br.com.plataformafreelancer.fourcamp.exceptions.NaoEncontradoException;
@@ -54,12 +58,12 @@ public class EmpresaServiceTest {
 
     @Test
     public void testSalvarDadosCadastrais() {
-        EnderecoDto enderecoDto = new EnderecoDto();
-        enderecoDto.setLogradouro("Rua Exemplo");
-        enderecoDto.setBairro("Centro");
-        enderecoDto.setLocalidade("São Paulo");
-        enderecoDto.setCep("01000-000");
-        enderecoDto.setUf("SP");
+        ResponseEnderecoDto responseEnderecoDto = new ResponseEnderecoDto();
+        responseEnderecoDto.setLogradouro("Rua Exemplo");
+        responseEnderecoDto.setBairro("Centro");
+        responseEnderecoDto.setLocalidade("São Paulo");
+        responseEnderecoDto.setCep("01000-000");
+        responseEnderecoDto.setUf("SP");
 
         RequestEmpresaDto requestDto = new RequestEmpresaDto();
         requestDto.setEmail("email@exemplo.com");
@@ -75,7 +79,7 @@ public class EmpresaServiceTest {
         requestDto.setComplemento("Sala 1");
         requestDto.setPais("Brasil");
 
-        when(cepService.buscaEnderecoPor(requestDto.getCep())).thenReturn(enderecoDto);
+        when(cepService.buscaEnderecoPor(requestDto.getCep())).thenReturn(responseEnderecoDto);
         doNothing().when(emailService).validarEmail(requestDto.getEmail());
         doNothing().when(senhaService).validarSenha(requestDto.getSenha());
         doNothing().when(cnpjService).validarCnpj(requestDto.getCnpj());

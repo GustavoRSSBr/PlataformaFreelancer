@@ -1,6 +1,6 @@
 package br.com.plataformafreelancer.fourcamp.dao.impl.mapper;
 
-import br.com.plataformafreelancer.fourcamp.dtos.ResponsePropostaDto;
+import br.com.plataformafreelancer.fourcamp.dtos.responseDtos.ResponsePropostaDto;
 import br.com.plataformafreelancer.fourcamp.enuns.StatusProposta;
 import org.springframework.jdbc.core.RowMapper;
 

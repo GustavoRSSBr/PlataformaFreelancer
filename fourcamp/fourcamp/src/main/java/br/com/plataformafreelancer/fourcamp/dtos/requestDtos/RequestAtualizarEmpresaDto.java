@@ -1,4 +1,4 @@
-package br.com.plataformafreelancer.fourcamp.dtos;
+package br.com.plataformafreelancer.fourcamp.dtos.requestDtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
